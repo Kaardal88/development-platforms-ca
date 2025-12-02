@@ -1,7 +1,6 @@
 {
   "name": "development-platforms-ca",
   "version": "1.0.0",
-  "description": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -17,6 +16,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "bugs": {
     "url": "https://github.com/Kaardal88/development-platforms-ca/issues"
   },
@@ -27,6 +27,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.15.3",
     "zod": "^4.1.13"
   },
   "devDependencies": {
