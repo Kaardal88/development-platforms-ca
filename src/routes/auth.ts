@@ -61,7 +61,6 @@ router.post("/login", validateLogin, async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
     const [rows] = await pool.execute(
       "SELECT id, username, email, password FROM users WHERE email = ?",
       [email]
@@ -76,7 +75,6 @@ router.post("/login", validateLogin, async (req, res) => {
 
     const user = users[0];
 
-    // Verify password using bcrypt
     const validPassword = await bcrypt.compare(password, user.password!);
 
     if (!validPassword) {
@@ -85,10 +83,8 @@ router.post("/login", validateLogin, async (req, res) => {
       });
     }
 
-    // Generate JWT token
     const token = generateToken(user.id);
 
-    // Return user info and token
     const userResponse: UserResponse = {
       id: user.id,
       username: user.username,
