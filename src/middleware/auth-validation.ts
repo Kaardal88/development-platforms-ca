@@ -7,7 +7,7 @@ const registerSchema = z.object({
     .string()
     .min(3, "Username must be at least 3 characters long")
     .max(50, "Username must not exceed 50 characters"),
-  email: z.email("Email must be a valid email"),
+  email: z.email("Email must be a valid email").trim(),
   password: z
     .string()
     .regex(
