@@ -8,7 +8,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     const [rows] = await pool.execute(
-      `SELECT  articles.id, articles.title, articles.body, articles.category, articles.submitted_by, articles.created_at FROM articles INNER JOIN users ON articles.submitted_by = users.id ORDER BY articles.created_at DESC`
+      `SELECT   articles.title, articles.body, articles.category,  articles.created_at FROM articles INNER JOIN users ON articles.submitted_by = users.id ORDER BY articles.created_at DESC`
     );
 
     const articles = rows as PostWithUser[];
