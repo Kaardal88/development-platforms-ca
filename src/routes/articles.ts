@@ -5,6 +5,36 @@ import { authenticateToken } from "../middleware/auth-validation.js";
 
 const router = Router();
 
+/**
+ * @swagger
+ * /articles:
+ *   get:
+ *     summary: Get all articles
+ *     description: Retrieves all articles from all users, ordered by creation date (newest first)
+ *     tags:
+ *       - Articles
+ *     responses:
+ *       200:
+ *         description: List of all articles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   title:
+ *                     type: string
+ *                   body:
+ *                     type: string
+ *                   category:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *       500:
+ *         description: Failed to fetch articles
+ */
 router.get("/", async (req, res) => {
   try {
     const [rows] = await pool.execute(
@@ -19,6 +49,64 @@ router.get("/", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /articles:
+ *   post:
+ *     summary: Create a new article
+ *     description: Creates a new article. Requires authentication
+ *     tags:
+ *       - Articles
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the article
+ *               body:
+ *                 type: string
+ *                 description: The content of the article
+ *               category:
+ *                 type: string
+ *                 description: The category of the article
+ *             required:
+ *               - title
+ *               - body
+ *               - category
+ *     responses:
+ *       201:
+ *         description: Article created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 article:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     title:
+ *                       type: string
+ *                     body:
+ *                       type: string
+ *                     category:
+ *                       type: string
+ *                     user_id:
+ *                       type: integer
+ *       400:
+ *         description: Missing required fields
+ *       500:
+ *         description: Failed to create article
+ */
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { title, body, category } = req.body;
