@@ -16,7 +16,6 @@ router.post("/register", validateRequiredUserData, async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if user already exists
     const [rows] = await pool.execute(
       "SELECT * FROM users WHERE email = ? OR username = ?",
       [email, username]
@@ -29,17 +28,14 @@ router.post("/register", validateRequiredUserData, async (req, res) => {
       });
     }
 
-    // Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Create the user in database
     const [result]: [ResultSetHeader, any] = await pool.execute(
       "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
 
-    // Return user info (without password)
     const userResponse: UserResponse = {
       id: result.insertId,
       username,
