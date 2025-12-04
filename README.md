@@ -44,6 +44,9 @@ Your database needs to have the necessary tables before starting the API:
 - `PATCH /users/:id` - <i>Requires Auth + Accsess Token</i>
 - `DELETE /users/:id` - <i>Requires Auth + Accsess Token</i>
 
+Please check API documentation for more info. 
+http://localhost:YOURPORT/api-docs
+
 ## Motivation
 
 In our course assignment we could choose one of two options: 
